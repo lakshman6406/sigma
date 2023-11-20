@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership Pricing & Course Inquiry</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .pricing-container,
+        .course-inquiry-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            margin-bottom: 20px;
+            text-align: center;
+            margin: 10px;
+        }
+
+        .course-inquiry-container {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .membership-price {
+            color: #007bff; /* Blue color, you can change it to your preferred color */
+            font-size: 1.5em; /* Increase the font size */
+            font-weight: bold; /* Make it bold */
+        }
+
+        /* Media query for screens smaller than 600px */
+        @media (max-width: 600px) {
+            .pricing-container,
+            .course-inquiry-container {
+                max-width: none;
+                margin: 20px; /* Remove margin to stack them vertically */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div style="display: grid;">
+    <div class="pricing-container">
+        <h2>Membership Pricing</h2>
+       
+        <p>Get access to technical and fundamental analysis, as well as community chat for just </p>
+        <p class="membership-price">Price - RS 2999/-</p>per annum</p>
+    </div>
+
+
+    <div class="course-inquiry-container">
+        <h2>Course Inquiry</h2>
+        <form id="courseForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <button type="button" onclick="submitCourseForm()">Submit Inquiry</button>
+        </form>
+    </div>
+</div>
+
+    <script>
+        function submitCourseForm() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+
+            // Example: Send user data to an email address
+            const subject = 'New Course Inquiry';
+            const body = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}`;
+            const mailtoLink = `mailto:sigmainvestmentacademy@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+            // Open the user's default email client to send the email
+            window.location.href = mailtoLink;
+
+            // Additional logic for storing the user in your system/database
+            alert('Inquiry submitted! We will get in touch with you soon.');
+        }
+    </script>
+</body>
+</html>
