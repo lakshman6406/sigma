@@ -167,7 +167,9 @@ body.open .navbar-menu{
         <div id="loginButtonContainer"></div>
     </nav>
 </nav>
-
+<script type="text/javascript">
+    const toggleMenuOpen = () => document.body.classList.toggle("open");
+</script>
 <script>
     function isLoggedIn() {
     return localStorage.getItem('isLoggedIn') === 'true';
