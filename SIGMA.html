@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+      <link rel="stylesheet" href="header.css">
+      <link rel="stylesheet" href="intro.css">
+      <link rel="stylesheet" href="general.css">
+      <link rel="stylesheet" href="footer.css">
+      <link style="border-radius: 1px;" rel="icon" href="mainpics/logo.png">
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sigma Investment Academy</title>
+</head>
+<bodys>
+
+  <!--nav-->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+*{
+  box-sizing: border-box;
+}
+
+body{
+  background: #3b3d43;
+}
+
+button{
+  border: 0;
+  padding: 0;
+  font-family: inherit;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.navbar{
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 64px;
+  background: #19191c;
+  color: #f9f9f9;
+  font-family: 'Poppins';
+}
+
+.navbar-overlay{
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.5s;
+}
+
+body.open .navbar-overlay{
+  visibility: visible;
+  opacity: 1;
+}
+
+.navbar-burger{
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+}
+
+.navbar-title{
+  margin: 2;
+  font-size: 16px;
+
+}
+
+.navbar-menu{
+  position: fixed;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  translate: -100% 0;
+  width: 270px;
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #000;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+
+body.open .navbar-menu{
+  translate: 0 0;
+  visibility: visible;
+}
+
+.navbar-menu > button{
+  color: rgba(255,255,255,0.5);
+  background: transparent;
+  padding: 0 8px;
+  transition: all 0.3s;
+}
+
+.navbar-menu > button.active{
+  color: inherit;
+}
+
+.navbar-menu > button.active:hover{
+  color: rgba(255, 255, 255, 0.75);
+}
+
+@media only screen and (min-width: 600px){
+  .navbar{
+      justify-content: space-between;
+      padding: 0 0 0 16px;
+  }
+  .navbar-overlay{
+      display: none;
+  }
+  .navbar-burger{
+      display: none;
+  }
+  .navbar-menu{
+      position: static;
+      translate: 0 0;
+      width: auto;
+      background: transparent;
+      flex-direction: row;
+      visibility: visible;
+  }
+}
+  </style>
+<nav class="navbar">
+    <div class="navbar-overlay" onclick="toggleMenuOpen()"></div>
+
+    <button type="button" class="navbar-burger" onclick="toggleMenuOpen()">
+        <span class="material-icons">menu</span>
+    </button>
+
+    <div style="margin-left: 5px; display: flex;flex-direction: row;align-items: center;">
+        <h1 class="navbar-title">Sigma Investment & Trading Academy</h1>
+    </div>
+
+    
+
+    <nav class="navbar-menu">
+        <li><a href="technicals.html"><button type="button" class="active" style="color: rgb(255, 0, 0);">Technicals</button></a></li>
+        <li><a href="fundamentals.html"><button type="button" class="active" style="color: rgb(0, 255, 0);">Fundamentals</button></a></li>
+        <li><a href="chat.html"><button type="button" class="active" style="color: rgb(255, 255, 255);">Chat</button></a></li>
+        <div id="loginButtonContainer"></div>
+    </nav>
+</nav>
+
+<script>
+    function isLoggedIn() {
+    return localStorage.getItem('isLoggedIn') === 'true';
+}
+
+function handleLogout() {
+    localStorage.removeItem('isLoggedIn');
+    window.location.href = 'login.html';
+}
+
+function handleLogin() {
+    window.location.href = 'login.html';  // Update this with your actual login page
+}
+
+function updateLoginButton() {
+    const loginButtonContainer = document.getElementById('loginButtonContainer');
+
+    if (isLoggedIn()) {
+        const logoutButton = document.createElement('button');
+        logoutButton.setAttribute('type', 'button');
+        logoutButton.innerHTML = 'Logout';
+        logoutButton.style = 'padding: 5px 10px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 5px;';
+        logoutButton.addEventListener('click', handleLogout);
+        loginButtonContainer.innerHTML = '';
+        loginButtonContainer.appendChild(logoutButton);
+    } else {
+        const loginButton = document.createElement('button');
+        loginButton.setAttribute('type', 'button');
+        loginButton.innerHTML = 'Login';
+        loginButton.style = 'padding: 5px 10px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 5px;';
+        loginButton.addEventListener('click', handleLogin);
+        loginButtonContainer.innerHTML = '';
+        loginButtonContainer.appendChild(loginButton);
+    }
+}
+
+// Call this function on page load to initialize the login/logout button
+window.onload = updateLoginButton;
+</script>
+    <!--intro-->
+   <style>
+      .intro{
+    margin-top: 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 20px;row-gap: 20px;
+    }    
+      .intro-1{
+       width: 100%;
+        } 
+        
+      
+    </style>
+    <div 
+    class="intro">
+               <div>
+                   <img class="intro-1" src="mainpics/bull.png">
+               </div>
+   
+               <div>
+                   <img style="border-radius: 300px" class="intro-1" src="mainpics/LOGO.jpg.jpg">
+               </div>
+   
+               <div>
+                   <img class="intro-1"src="mainpics/bear.png">
+               </div>
+    
+    </div>
+
+     <!--about-->
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .about-us-container {
+            width: 100%;
+            margin: 50px 0;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .icon-container {
+            flex: 0 0 30%;
+            text-align: center;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+
+        .icon-container img {
+            width: 200px;
+            border-radius: 5%;
+        }
+
+        .content-container {
+            flex: 1;
+            text-align: left;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        
+
+        @media (max-width: 600px) {
+            .about-us-container {
+                flex-direction: column;
+            }
+
+            .icon-container {
+                flex: 1 1 auto;
+                margin-right: 0;
+            }
+
+            .content-container {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+    <div style="font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0000;">
+    <div style="margin:0;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 1px;">
+      <h1 style="font-weight: bolder;font-size: x-large;
+      color: #ffffff;
+      margin-left: 20px;margin:5px; color: #000;">About US</h1>
+      <!-- Add your content here -->
+    </div>
+    </div>
+    <div class="about-us-container">
+      <div class="icon-container">
+          <img  src="mainpics/pic (1).jpg" alt="Icon">
+      </div>
+
+      <div class="content-container">
+
+          <p><strong>Exclusive and Personalized Education:</strong> Limiting annual intake to 40 students, providing personalized attention for a deep understanding of stock market dynamics and options selling strategies.</p>
+
+          <p><strong>Focus on Option Selling for Consistent Returns:</strong> Specializing in option selling, emphasizing its potential for consistent returns, enabling clients to build a robust foundation for financial success while minimizing risk.</p>
+
+          <p><strong>Monetized Client Success:</strong> Uniquely monetizing each client's progress, aligning interests, fostering a supportive learning environment, actively participating in clients' financial journeys for mutual success.</p>
+      </div>
+  </div>
+  <!--table-->
+   <style>
+table {
+   border-collapse: collapse;
+   width: 50%;
+   margin: 10px;
+   color: rgb(0, 0, 0);
+   font-size: 16px; /* Adjust the font size as needed */
+}
+
+.con-t {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 20px;
+}
+  .table-c {
+   display: flex;
+   grid-template-columns: 1fr 1fr 1fr;
+   column-gap: px;
+   row-gap: px;
+}
+th, td {
+   border: 1px solid rgb(0, 0, 0);
+   padding: 10px;
+   text-align: center;
+}
+@media (max-width: 600px) {
+   table {
+       font-size: 11px; 
+       margin: 5px;/* Adjust the font size for smaller screens */
+   }
+   th, td {
+      padding: 5px;
+   }
+}
+@media (max-width: 600px) {
+   .con-t {
+       grid-template-columns: 1fr;
+   }
+
+   .img-con {
+       display: none;
+   }
+
+   table {
+       width: 100%;
+   }
+}
+.img-con {
+   width: 100%;
+   max-width: 100%;
+   text-align: center;
+   padding-top: 250px;
+   
+}
+
+    </style>
+   <div style="padding-left: 10px; display: inline-block;">
+    <div>
+      <p style="font-size:x-large; font-weight: bold; color: rgb(0, 0, 0);">Power of Compounding</p>
+    </div>
+    <div>
+      <p style="color:rgb(0, 0, 0);">If we start with 1 rupee and double it every day for 30 days.</p>
+    </div>
+    
+    
+    <div class="con-t">
+        <div class="table-c">
+            <!-- First Table -->
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>days</th>
+                            <th>Amount</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
+                        
+                         
+                            <tr>
+                            <td>11.</td> 
+                            <td>₹1,023</td>
+                            </tr>
+                            <tr>
+                            <td>12.</td>
+                            <td>₹2,047</td>
+                            </tr>
+                            <tr>
+                            <td>13.</td>
+                            <td>₹4,095</td>
+                            </tr>
+                            <tr>
+                            <td>14.</td>
+                            <td>₹8,191</td>
+                                
+                            </tr>
+                            <tr>
+                            <td>15.</td>
+                            <td>₹16,383</td>
+                            </tr>
+                            <tr>
+                            <td>16.</td>
+                            <td>₹32,767</td>
+                            </tr>
+                            <tr>
+                            <td>17.</td>
+                            <td>₹65,535</td>
+                            </tr>
+                            <tr>
+                            <td>18.</td>
+                            <td>₹1,31,071</td>
+                            </tr>
+                            <tr>
+                            <td>19.</td>
+                             <td>₹2,62,143</td>
+                            </tr>
+                            <td>20.</td>
+                             <td>₹5,24,287</td>
+                            </tr>
+            
+                            
+                        
+                       
+                    </tbody>
+                </table>
+            </div>
+            <!-- secont Table -->
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>days</th>
+                            <th>Amount</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
+                        
+                         
+                            <tr>
+                            <td>11.</td> 
+                            <td>₹1,023</td>
+                            </tr>
+                            <tr>
+                            <td>12.</td>
+                            <td>₹2,047</td>
+                            </tr>
+                            <tr>
+                            <td>13.</td>
+                            <td>₹4,095</td>
+                            </tr>
+                            <tr>
+                            <td>14.</td>
+                            <td>₹8,191</td>
+                                
+                            </tr>
+                            <tr>
+                            <td>15.</td>
+                            <td>₹16,383</td>
+                            </tr>
+                            <tr>
+                            <td>16.</td>
+                            <td>₹32,767</td>
+                            </tr>
+                            <tr>
+                            <td>17.</td>
+                            <td>₹65,535</td>
+                            </tr>
+                            <tr>
+                            <td>18.</td>
+                            <td>₹1,31,071</td>
+                            </tr>
+                            <tr>
+                            <td>19.</td>
+                             <td>₹2,62,143</td>
+                            </tr>
+                            <td>20.</td>
+                             <td>₹5,24,287</td>
+                            </tr>
+            
+                            
+                        
+                       
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Third Table -->
+            <div>
+                <table>
+            <thead>
+                <tr>
+                    <th>days</th>
+                    <th>Amount</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+            
+                
+                 
+                    <tr>
+                    <td>1.</td> 
+                    <td>₹10,48,575</td>
+                    </tr>
+                    <tr>
+                    <td>2.</td>
+                    <td>₹20,97,151</td>
+                    </tr>
+                    <tr>
+                    <td>3.</td>
+                    <td>₹41,94,303</td>
+                    </tr>
+                    <tr>
+                    <td>4.</td>
+                    <td>₹83,88,607</td>
+                        
+                    </tr>
+                    <tr>
+                    <td>5.</td>
+                    <td>₹1,67,77,215</td>
+                    </tr>
+                    <tr>
+                    <td>6.</td>
+                    <td>₹3,35,54,431</td>
+                    </tr>
+                    <tr>
+                    <td>7.</td>
+                    <td>₹6,71,08,863</td>
+                    </tr>
+                    <tr>
+                    <td>8.</td>
+                    <td>₹13,42,17,727</td>
+                    </tr>
+                    <tr>
+                    <td>9.</td>
+                     <td>₹26,84,35,455</td>
+                    </tr>
+                    <td>10.</td>
+                     <td>₹53,68,70,911</td>
+                    </tr>
+    
+                    
+                
+               
+            </tbody>
+        </table>
+            </div>
+        </div>
+
+        <!-- Image Container -->
+        <div class="img-con">
+            <img style="width: 100%; height: auto; display: block;" src="mainpics/money.png" alt="Your Image">
+        </div>
+    </div>
+
+    <div>
+      <p style="font-size: 1em; /* Adjust the font size as needed */
+      text-align: left;
+      margin-left: 10px;
+      margin-bottom: 10px;
+      font-weight: bold;
+      
+      max-width: 100%; color: rgb(0, 0, 0);">
+          "Compound Interest is the eigth wonder of the world.He who understands it,earns it; he who doesn't pays it"
+      </p>
+    </div>   
+    <div 
+    style="margin-right: 20px;">
+      <p style="text-align: end;margin-top: 0;color: rgb(0, 0, 0);">
+          ------Albert Einsten
+      </p>
+    </div>
+    </div>
+
+  <!--ravi-->
+   <style>
+  .pic{
+     width:30%;
+     border: solid;
+     border-radius: 10px;
+     margin-top: 10px;
+     margin-bottom: 10px;
+     max-width: 100%;
+     height: auto;
+  }
+  .div1 {
+         display: flex;
+         flex-wrap: wrap;
+     }
+ 
+     .container {
+         flex: 1;
+         margin: 10px;
+          border-radius: 20px;
+           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+           padding: 1px
+     }
+ 
+     @media (max-width: 600px) {
+         .div1 {
+             flex-direction: column;
+         }
+     }
+     .container:nth-child(3) {
+      flex-grow: 3; /* Take three times the space of the first two containers */
+      max-width: none;
+  }
+   </style>
+   <div style="background-color: rgb(255, 255, 255); border-radius: 5px;">
+   <!--calculator-->
+<div class="div1" style="padding-right: 15px;">
+    <div style="background-color: lightblue;padding-left: 10px; border-radius: 10px;" class="container " >
+        <h2>Ravi's Investment</h2>
+        <img class="pic" src="mainpics/young.png">
+        <p style="font-size:small;"><strong>Name:</strong> Ravi</p>
+        <p style="font-size:small;"><strong>Age when started investing:</strong> 20 years</p>
+        <p style="font-size:small;"><strong>Monthly Investment:</strong> ₹1,000</p>
+        <p style="font-size:small;"><strong>Total invested-amount:</strong>₹4,80,000</p>
+        <p style="font-size:small;"><strong>Estimated Returns (15% CAGR):</strong> 3,09,23,755<!-- You can calculate this based on your requirements --></p>
+        <p style="font-size:small;"><strong>Total Amount at 60th year:</strong> ₹3,14,04,755<!-- You can calculate this based on your requirements --></p>
+    </div>
+    <div style="background-color: rgb(188, 230, 173);padding-left: 10px; border-radius: 10px;" class="container">
+        <h2>Gopis's Investment</h2>
+        <img class="pic" src="mainpics/pic (2).png">
+        <p style="font-size:small;"><strong>Name:</strong> Gopi</p>
+        <p style="font-size:small;"><strong>Age when started investing:</strong> 30 years</p>
+        <p style="font-size:small;"><strong>Monthly Investment:</strong>₹2,000</p>
+        <p style="font-size:small;"><strong>Total invested-amount:</strong>₹7,20,000</p>
+        <p style="font-size:small;"><strong>Estimated Returns (15% CAGR):</strong> ₹1,05,61,636<!-- You can calculate this based on your requirements --></p>
+        <p style="font-size:small;"><strong>Total Amount at 60th year:</strong> ₹1,12,83,636<!-- You can calculate this based on your requirements --></p>
+    </div>
+
+    <div class="container" >
+        <div>
+            <canvas id="investmentChart" width="300" height="200"></canvas>
+        </div>
+      
+        <script>
+            // Data
+            var raviInvestment = [];
+            var gopiInvestment = [];
+            var age = 20;
+      
+            for (var i = age; i <= 60; i++) {
+                raviInvestment.push(1000 * 12 * ((1 + 0.15) ** (i - age) - 1) / 0.13);
+                gopiInvestment.push(i >= 30 ? 2000 * 12 * ((1 + 0.15) ** (i - 30) - 1) / 0.13 : null);
+            }
+      
+            // Chart
+            var ctx = document.getElementById('investmentChart').getContext('2d');
+            var investmentChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({ length: 41 }, (_, i) => i + age), // Adjusted the length to include ages 20 to 60
+                    datasets: [
+                        {
+                            label: 'Ravi',
+                            data: raviInvestment,
+                            borderColor: 'blue',
+                            fill: false,
+                        },
+                        {
+                            label: 'Gopi',
+                            data: gopiInvestment,
+                            borderColor: 'green',
+                            fill: false,
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom'
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Investment Value'
+                            },
+                            ticks: {
+                                callback: function (value, index, values) {
+                                    return formatIndianNumber(value);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+      
+            function formatIndianNumber(value) {
+                if (value >= 10000000) {
+                    return (value / 10000000).toFixed(2) + ' Cr';
+                } else if (value >= 100000) {
+                    return (value / 100000).toFixed(2) + ' Lakh';
+                } else if (value >= 1000) {
+                    return (value / 1000).toFixed(2) + ' K';
+                } else {
+                    return value.toFixed(2);
+                }
+            }
+        </script>
+      </div>
+</div>
+<div style="font-size:medium; font-weight: bold; margin-left: 10px; padding-bottom: 10px;">
+
+        <div>
+        <p style="max-width: 100%;font-size: small; color: blue;"> &#x2022 Embrace the potential of compounding by starting with modest amounts in early investments, as even small contributions over time can lead to significant financial growth.</p>
+        <p style="max-width: 100%; font-size: small; color: blue;">&#x2022 Don't hesitate—begin your journey into the stock market now and harness the power of compounding to pave the way for financial success.</p>
+    </div>
+    </div>
+    </div>
+   <div>
+
+    <style>
+        .body-1{
+          font-family: Arial, sans-serif;
+          margin: 20px;
+        }
+    
+        #calculator-container {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+        }
+    
+        #calculator, #summary {
+          flex-basis: calc(50% - 20px);
+          box-sizing: border-box;
+          margin-bottom: 20px;
+          padding: 20px;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          background-color: #f9f9f9;
+        }
+    
+        input, select, .button1 {
+          width: 100%;
+          margin-bottom: 10px;
+          padding: 8px;
+          box-sizing: border-box;
+        }
+    
+        .button1 {
+          background-color: #4caf50;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+    
+        .button1:hover {
+          background-color: #45a049;
+        }
+    
+        @media (max-width: 600px) {
+          #calculator, #summary {
+            flex-basis: 100%;
+          }
+        }
+      </style>
+    <div class="body-1" id="cal">
+
+        <h2 style="color: rgb(0, 0, 0);">Compound Interest Calculator</h2>
+      
+        <div id="calculator-container">
+          <div id="calculator">
+            <label for="initial-investment">Initial Investment:</label>
+            <input type="number" id="initial-investment" placeholder="Enter initial investment" required>
+      
+            <label for="interest-rate">Interest Rate (%):</label>
+            <input type="number" id="interest-rate" placeholder="Enter interest rate" required>
+      
+            <label for="years">Number of Years:</label>
+            <input type="number" id="years" placeholder="Enter number of years" required>
+      
+            <label for="monthly-deposit">Monthly Deposit (optional):</label>
+            <input type="number" id="monthly-deposit" placeholder="Enter monthly deposit">
+      
+            <label for="compounding-interval">Compounding Interval:</label>
+            <select id="compounding-interval">
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
+            </select>
+      
+            <button class="button1" onclick="calculateCompoundInterest()">Calculate</button>
+          </div>
+      
+          <div id="summary">
+            <h3>Investment Summary</h3>
+            <p id="invested-amount">Invested Amount: ₹0.00</p>
+            <p id="estimated-returns">Estimated Returns: ₹0.00</p>
+            <p id="total-value">Total Value: ₹0.00</p>
+          </div>
+        </div>
+      
+        <script>
+          function calculateCompoundInterest() {
+            const principal = parseFloat(document.getElementById('initial-investment').value);
+            const interestRate = parseFloat(document.getElementById('interest-rate').value) / 100;
+            const years = parseFloat(document.getElementById('years').value);
+            const monthlyDeposit = parseFloat(document.getElementById('monthly-deposit').value) || 0;
+            const compoundingInterval = document.getElementById('compounding-interval').value;
+      
+            let totalValue = principal;
+            let totalDeposits = 0;
+      
+            for (let year = 1; year <= years; year++) {
+              for (let i = 0; i < (compoundingInterval === 'monthly' ? 12 : 1); i++) {
+                totalValue *= (1 + interestRate / (compoundingInterval === 'monthly' ? 12 : 1));
+                totalValue += monthlyDeposit;
+              }
+      
+              totalDeposits += monthlyDeposit * (compoundingInterval === 'monthly' ? 12 : 1);
+            }
+      
+            const estimatedReturns = totalValue - (principal + totalDeposits);
+      
+            document.getElementById('invested-amount').innerText = `Invested Amount: ₹${(principal + totalDeposits).toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
+            document.getElementById('estimated-returns').innerText = `Estimated Returns: ₹${estimatedReturns.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
+            document.getElementById('total-value').innerText = `Total Value: ₹${totalValue.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
+          }
+        </script>
+      
+    </div>
+
+   </div>
+   <!--fee-->
+   <style>
+  body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #0000;
+  }
+
+  .container {
+      margin: 10px 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 1px;
+  }
+
+  h1 {
+      font-weight: bolder;
+      font-size: xx-large;
+      color: #ffffff;
+      margin: 5px;
+  }
+
+  .main-div {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+  }
+
+  .child-div {
+      padding: 10px;
+  }
+
+  .course-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center; /* Center content vertically */
+  }
+
+  .course {
+        background-color: rgb(255, 255, 255);
+        margin: 10px 20px;
+
+         border-radius: 20px;
+         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+         padding: 1px;
+        
+        margin: 5px;
+        padding: 10px;
+        box-sizing: border-box;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: left; /* Center content horizontally */
+        text-align: left; /* Align text to the left */
+    }
+  
+
+  .image-container {
+      display: flex;
+      justify-content: center; /* Center image horizontally */
+  }
+
+  .pay-button {
+      background-color: rgb(255, 61, 61);
+      height: 36px;
+      width: 100px;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+      font-weight: bold;
+  }
+
+  .image-container img {
+      max-width: 100%;
+      max-height: 100%;
+      height: auto;
+      display: block;
+  }
+
+  @media (max-width: 800px) {
+      .course-container {
+          grid-template-columns: 1fr; /* Change to a single column layout for mobile */
+      }
+
+      .image-container {
+          display: none; /* Hide the image container on mobile */
+      }
+
+      .course p {
+          font-size: medium; /* Adjust font size for screens between 601px and 800px */
+      }
+  }
+
+  @media (max-width: 600px) {
+      .course p {
+          font-size: small; /* Adjust font size for screens less than or equal to 600px */
+      }
+  }
+   </style>
+   <div style="font-family: Arial, sans-serif;
+margin: 0;
+padding: 0;
+background-color: #0000;">
+<div style="margin: 10px 20px;
+
+border-radius: 20px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+padding: 1px;">
+  <h1 style="font-weight: bolder;font-size: xx-large;
+  color: #000000;
+  margin:5px;">Course</h1>
+  <!-- Add your content here -->
+</div>
+    </div>
+    <div class="main-div">
+    <div class="child-div">
+        <div class="content">
+            <div class="course-container">
+                <div class="course">
+                    <div><p style="font-size: large;margin-bottom: 15px;margin-top: 10px;margin-left: 10px; font-weight: bold;"> Investment & Trading Strategy </p></div>    
+                    <div><p style="margin-bottom: 5px;">&#8226; Indicators</p></div>
+                    <div><p style="margin-bottom: 5px;">&#8226; Candlestic Analysis</p></div>
+                    <div><p style="margin-bottom: 5px;">&#8226; Chat Patterns</p></div>
+                    <div><p style="margin-bottom: 5px;">&#8226; Price Action Strategies</p></div>
+                    <div><p style="margin-bottom: 5px;">&#8226; Fundamentals of a Stock</p></div>
+                    <p style="margin-top: 20px;font-weight: bold;">Duraion - 5months</p>
+                    <p style="margin-top: 10px;font-weight: bold;">Price     - ₹30,000</p>
+                    <p style="margin-top: 10px;font-weight: bold;">Monthly - ₹6,000</p>
+                    <button class="pay-button">Enroll now</button>
+                </div>
+                <div class="image-container">
+                    <img src="mainpics/equity.png" alt="Image">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="child-div">
+        <div class="content">
+            <div class="course-container">
+                <div class="course">
+                    <div><p style="font-size: large;margin-bottom: 15px;margin-top: 10px;margin-left: 10px; font-weight: bold;"> Futures and Options & Trading Strategys </p></div>    
+                    <div><p style="margin-bottom: 5px;">&#8226; Strangle</p></div>
+                    <div><p style="margin-bottom: 5px;">&#8226; Straddel</p></div>
+                    <div><p style="margin-bottom: 5px;">&#8226; iron Butterfly</p></div>
+                    <div><p style="margin-bottom: 5px;">&#8226; iron Conders</p></div>
+                    <div><p style="margin-bottom: 5px;">&#8226; etc....</p></div>
+                    <p style="margin-top: 20px;font-weight: bold;">Duraion - 5months</p>
+                    <p style="margin-top: 10px;font-weight: bold;">Price     - ₹30,000</p>
+                    <p style="margin-top: 10px;font-weight: bold;">Monthly - ₹6,000</p>
+                    <button class="pay-button">Enroll now</button>
+                </div>
+                <div class="image-container">
+                    <img src="mainpics/equity.png" alt="Image">
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+   <!--timings-->
+    <style>
+  #timecontainer {
+   width: 80%;
+   margin: 20px auto;
+   background-color: #fff;
+   padding: 20px;
+   border-radius: 8px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ }
+    </style>
+    <div style="font-size: arial,sans-serif;margin: 0;padding: 0;background-color: 0000">
+    <div id="timecontainer">
+      <h1 style="color: #333;text-align: center;">Schedule</h1>
+      <p style="color: #555; text-align: center;">Classes are held twice a week. You can choose either morning (10:30 AM - 12:00 PM) or evening (6:30 PM - 8:00 PM) sessions.</p>
+    </div>
+    </div>
+   <!--footer-->
+   <footer class="footer-distributed">
+
+			<div class="footer-left">
+
+				<img style="border-radius: 300px;max-height: 80px;" src="mainpics/LOGO.jpg.jpg"><p style="color: lightblue;font-size: 20px;margin-top: 0;">sigma investment & Trading Academy</p>
+
+				<p class="footer-links">
+					<a href="#" class="link-1">Home</a>
+					
+					<a href="technicals.html">Technicals</a>
+				
+					<a href="fundamentals.html">Fundamentals</a>
+				
+					<a href="#about">About</a>
+					
+					<a href="#cal">Calculator</a>
+					
+					
+				</p>
+
+				<p class="footer-company-name">Sigma Investment & Trading Academy © 2023</p>
+			</div>
+
+			<div class="footer-center">
+
+				<div>
+                    <div style="color: white;margin-bottom: 15px; align-items: center;">Office</div>
+					<i class="fa fa-map-marker"></i>
+					<p><span>steel Plant Hospital Road, Aganampudi, </span><span>Visakhapatnam-530046.</span></p>
+				</div>
+
+				<div>
+					<i class="fa fa-phone"></i>
+					<p>+917032326255</p>
+				</div>
+
+				<div>
+					<i class="fa fa-envelope"></i>
+					<p><a href="mailto:support@company.com">sigmainvestmentacademy@gmil.com</a></p>
+				</div>
+
+			</div>
+
+			<div class="footer-right">
+
+				<p class="footer-company-about">
+					<span>About the company</span>
+					"Our company is dedicated to empowering beginners in the stock market by providing comprehensive education and expert insights. Specializing in asset management services, we strive to impart knowledge that enables individuals to navigate the complexities of the stock market with confidence. Our mission is to teach and guide, fostering a community of informed investors."
+				</p>
+
+				<div class="footer-icons">
+
+					<a style="border-radius:10px ;" href="instagram.com/sigmainvestmentacademy"><img style="width: 35px; border-radius: 10px;" class="fa fa-facebook" src="mainpics/download.jpg"></a>
+				    <a style="border-radius:10px ;" href="#"><img style="width: 39px; border-radius: 10px;" class="fa fa-facebook" src="mainpics/Twitter_new_X_logo.png"></a>
+					<a style="border-radius:10px ;" href="#"><img style="width: 35px; border-radius: 10px;" class="fa fa-facebook" src="mainpics/LinkedIn_logo_initials.png.webp"></a>
+					<a style="border-radius:10px ;" href="https://www.youtube.com/@Sigma-Investment-academy"><img style="width: 35px; border-radius: 10px;" class="fa fa-facebook" src="mainpics/Youtube_logo.png"></a>
+
+				</div>
+
+			</div>
+
+   </footer>
+
+
+    </body>
+    </html>

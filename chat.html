@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application with Image Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        #chat-container {
+            max-width: 800px; /* Increase the width as needed */
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #chat-box {
+            max-height: 600px; /* Increase the height as needed */
+            width: 100%;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        #message-input {
+            width: 70%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        #file-input {
+            width: 20%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        #send-btn {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    // Simple JavaScript code for demonstration purposes
+    const validUserIds = [123, 456, 789]; // Add your valid user IDs here
+
+    let userId = prompt("Enter your user ID:");
+
+    if (!isValidUserId(userId)) {
+        alert("Invalid user ID. Redirecting to login page.");
+        window.location.href = "login.html"; // Redirect to the login page
+    }
+
+    function isValidUserId(id) {
+        return validUserIds.includes(parseInt(id));
+    }
+
+    function sendMessage() {
+        const messageInput = document.getElementById('message-input');
+        const fileInput = document.getElementById('file-input');
+        const chatBox = document.getElementById('chat-box');
+
+        const message = messageInput.value.trim();
+        const file = fileInput.files[0];
+
+        if (message === "" && !file) {
+            return;
+        }
+
+        let messageContent = `<strong>${userId}:</strong> ${message}`;
+
+        if (file) {
+            const imageUrl = URL.createObjectURL(file);
+            messageContent += `<br><img src="${imageUrl}" alt="User Image" style="max-width:100%;">`;
+        }
+
+        const formattedMessage = `<div>${messageContent}</div>`;
+        chatBox.innerHTML += formattedMessage;
+
+        // Clear input fields
+        messageInput.value = "";
+        fileInput.value = "";
+
+        // Additional logic can be added to send the message and file data to the server or perform other actions.
+    }
+</script>
+<script>
+    // Check if the user is not logged in, then redirect to the login page
+    if (!isLoggedIn()) {
+        window.location.href = 'login.html';
+    }
+
+    function isLoggedIn() {
+        return localStorage.getItem('isLoggedIn') === 'true';
+    }
+</script>
+
+<div id="chat-container">
+    <div id="chat-box"></div>
+    <input type="text" id="message-input" placeholder="Type your message...">
+    <input type="file" id="file-input" accept="image/*">
+    <button id="send-btn" onclick="sendMessage()">Send</button>
+</div>
+
+</body>
+</html>
+
+
+
