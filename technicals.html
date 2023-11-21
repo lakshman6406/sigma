@@ -3,71 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Technical analysis </title>
+    <title>Technical Analysis</title>
     <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+        }
 
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 20px;
-    }
+        h2 {
+            text-align: center;
+            color: #007BFF;
+            margin-bottom: 20px;
+        }
 
-    h2 {
-        text-align: center;
-        color: #333;
-    }
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-    form {
-        max-width: 400px;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
 
-    label {
-        display: block;
-        margin-bottom: 8px;
-        color: #333;
-    }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
 
-    input, select {
-        width: 100%;
-        padding: 8px;
-        margin-bottom: 16px;
-        box-sizing: border-box;
-    }
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
 
-    button {
-        background-color: #007BFF;
-        color: #fff;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-    }
+        button:hover {
+            background-color: #0056b3;
+        }
 
-    button:hover {
-        background-color: #0056b3;
-    }
-    #support1, #support2 {
-        color: darkgreen;
-        font-size: large;
-    }
+        #resultBox {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
 
-    #resistance1, #resistance2 {
-        font-size: large;
-        color: darkred;
-    }
-</style>
- 
+        #resultSecurityName, #resultLTP {
+            margin-bottom: 10px;
+        }
+
+        #resultSecurityName {
+            color: #333;
+        }
+
+        #resultLTP {
+            color: #000000;
+            
+        }
+
+        #support1, #support2 {
+            color: darkgreen;
+            font-size: large;
+        }
+
+        #resistance1, #resistance2 {
+            font-size: large;
+            color: darkred;
+        }
     </style>
 </head>
 <body>
 
-<h2>Technical analysis </h2>
+<h2>Technical Analysis</h2>
 
 <form id="optionsForm">
     <label for="securityName">Security Name:</label>
@@ -89,10 +116,14 @@
         <option value="monthly">Monthly</option>
     </select>
 
-    <br><br>
+    <button type="button" onclick="calculate()">Calculate</button>
+</form>
+
+<div id="resultBox">
+    <span style="margin-left: 20px; font-size: large; font-weight: bold;" id="resultSecurityName"></span>
+    <span style="margin-left: 111px; margin-bottom: 10px; font-size: large;font-weight: bold;" id="resultLTP"></span>
 
     <label>Calculation Result:</label>
-    <br>
 
     <label for="support1">Support 1:</label>
     <input type="text" id="support1" name="support1" readonly>
@@ -105,14 +136,11 @@
 
     <label for="resistance2">Resistance 2:</label>
     <input type="text" id="resistance2" name="resistance2" readonly>
-
-    <br><br>
-
-    <button type="button" onclick="calculate()">Calculate</button>
-</form>
+</div>
 
 <script>
     function calculate() {
+        var securityName = document.getElementById("securityName").value;
         var ltp = parseFloat(document.getElementById("ltp").value);
         var iv1 = parseFloat(document.getElementById("iv1").value);
         var iv2 = parseFloat(document.getElementById("iv2").value);
@@ -123,25 +151,25 @@
         if (calculationType === "daily") {
             result = (((Math.sqrt(1 / 365)) * ((iv1 + iv2) / 2)) / 100) * ltp;
         } else if (calculationType === "weekly") {
-            // Add your weekly calculation here
-            result = (((Math.sqrt(5/ 365)) * ((iv1 + iv2) / 2)) / 100) * ltp;
+            result = (((Math.sqrt(5 / 365)) * ((iv1 + iv2) / 2)) / 100) * ltp;
         } else if (calculationType === "monthly") {
-            // Add your monthly calculation here
-            result = (((Math.sqrt(21/ 365)) * ((iv1 + iv2) / 2)) / 100) * ltp;
+            result = (((Math.sqrt(21 / 365)) * ((iv1 + iv2) / 2)) / 100) * ltp;
         }
-        // Round the results to two decimal places
-        var support1 = (ltp-result/2).toFixed(2);
-        var support2 = (ltp-result).toFixed(2);
-        var resistance1 = (ltp+result/2).toFixed(2);
-        var resistance2 = (ltp+result).toFixed(2);
 
+        var support1 = (ltp - result / 2).toFixed(2);
+        var support2 = (ltp - result).toFixed(2);
+        var resistance1 = (ltp + result / 2).toFixed(2);
+        var resistance2 = (ltp + result).toFixed(2);
 
-        document.getElementById("support1").value =support1 ;
+        document.getElementById("resultSecurityName").textContent = "Security Name: " + securityName;
+        document.getElementById("resultLTP").textContent = "LTP: " + ltp;
+        document.getElementById("support1").value = support1;
         document.getElementById("support2").value = support2;
-        document.getElementById("resistance1").value =resistance1  ;
+        document.getElementById("resistance1").value = resistance1;
         document.getElementById("resistance2").value = resistance2;
     }
 </script>
+
 <script>
     // Check if the user is not logged in, then redirect to the login page
     if (!isLoggedIn()) {
@@ -155,6 +183,7 @@
 
 </body>
 </html>
+
 
 
 
