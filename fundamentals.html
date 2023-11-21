@@ -8,34 +8,42 @@
     <!-- Your head content here -->
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 20px;
+            background-color: #f0f0f0;
         }
 
         label {
             display: block;
             margin-bottom: 5px;
+            font-weight: bold;
         }
 
         input {
-            width: 100%;
-            padding: 8px;
+            width: calc(100% - 20px);
+            padding: 10px;
             margin-bottom: 15px;
             box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-        }
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    width: 100%; /* Adjusted width */
+    margin: 0 auto; /* Center the button */
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
 
-        button:hover {
-            background-color: #45a049;
-        }
+button:hover {
+    background-color: #45a049;
+}
 
         #formsContainer {
             display: flex;
@@ -47,9 +55,13 @@
         form {
             width: 30%;
             box-sizing: border-box;
-            padding: 10px;
+            padding: 20px;
             border: 1px solid #ddd;
             margin-bottom: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
         }
 
         @media screen and (max-width: 768px) {
@@ -70,15 +82,20 @@
         .stockInfo {
             display: flex;
             flex-direction: column;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .stars {
             display: flex;
             align-items: center;
-            font-size: 30px;
-            color: gold;
-            margin-top: 5px;
+            font-size: 24px;
+            color: #ffd700;
+            margin-top: 10px;
         }
 
     </style>
@@ -88,7 +105,7 @@
 
     <label for="numForms">Number of Forms to Open (Max 6):</label>
     <input type="number" id="numForms" min="1" max="6" required>
-    <button type="button" onclick="openForms()">Open Forms</button>
+    <button class="openFormsButton" type="button" onclick="openForms()">Open Forms</button>
 
     <div id="formsContainer"></div>
 
@@ -106,6 +123,8 @@
 
         function openForms() {
             const numForms = document.getElementById('numForms').value;
+            const maxForms = 6;
+            const limitedNumForms = Math.min(numForms, maxForms);
             const formsContainer = document.getElementById('formsContainer');
             formsContainer.innerHTML = '';
 
@@ -113,7 +132,7 @@
             const scoreContainer = document.createElement('div');
             scoreContainer.className = 'scoreContainer';
 
-            for (let i = 0; i < numForms; i++) {
+            for (let i = 0; i < limitedNumForms; i++) {
                 const form = document.createElement('form');
                 form.style.backgroundColor = getRandomLightColor();
                 form.innerHTML += `
@@ -182,7 +201,7 @@
                 formsContainer.appendChild(form);
             }
 
-            if (numForms === 1) {
+            if (limitedNumForms === 1) {
                 const submitButton = document.createElement('button');
                 submitButton.type = 'button';
                 submitButton.textContent = 'Submit';
@@ -208,7 +227,7 @@
                 roa: { value: 5, condition: 'greater' },
                 opm: { value: 10, condition: 'greater' },
                 financialLeverage: { value: 2, condition: 'less' },
-                pbv: { value: 3, condition: 'less' },
+                pbv: { value: 2, condition: 'less' },
                 evEbitda: { value: 10, condition: 'less' },
                 pegRatio: { value: 1, condition: 'less' },
                 debtToEquity: { value: 1.5, condition: 'less' },
@@ -351,3 +370,4 @@
 
 </body>
 </html>
+
