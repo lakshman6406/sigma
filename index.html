@@ -210,34 +210,74 @@ function updateLoginButton() {
 window.onload = updateLoginButton;
 </script>
     <!--intro-->
-   <style>
-      .intro{
-    margin-top: 80px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    column-gap: 20px;row-gap: 20px;
-    }    
-      .intro-1{
-       width: 100%;
-        } 
-        
-      
+  <style>
+        .intro {
+            margin-top: 80px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            column-gap: 20px;
+            row-gap: 20px;
+        }
+
+        .intro-1 {
+            width: 100%;
+            animation-duration: 1s;
+            animation-timing-function: ease-in-out;
+        }
+
+        .bull {
+            animation: slideFromLeft 1s ease-in-out;
+        }
+
+        .logo {
+            animation: increaseSize 1.5s ease-in-out;
+        }
+
+        .bear {
+            animation: slideFromRight 1s ease-in-out;
+        }
+
+        @keyframes slideFromLeft {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideFromRight {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes increaseSize {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
     </style>
-    <div 
-    class="intro">
-               <div>
-                   <img class="intro-1" src="mainpics/bull.png">
-               </div>
-   
-               <div>
-                   <img style="border-radius: 300px" class="intro-1" src="mainpics/LOGO.jpg.jpg">
-               </div>
-   
-               <div>
-                   <img class="intro-1"src="mainpics/bear.png">
-               </div>
     
+<div class="intro">
+    <div class="bull">
+        <img class="intro-1" src="mainpics/bull.png" alt="Bull Image">
     </div>
+
+    <div class="logo">
+        <img style="border-radius: 300px" class="intro-1" src="mainpics/LOGO.jpg.jpg" alt="Logo Image">
+    </div>
+
+    <div class="bear">
+        <img class="intro-1" src="mainpics/bear.png" alt="Bear Image">
+    </div>
+</div>
 
      <!--about-->
         <style>
