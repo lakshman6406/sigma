@@ -5,6 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fundamentals</title>
+    <script>
+        // Check if the user is not logged in, then redirect to the login page
+        if (!isLoggedIn()) {
+            window.location.href = 'login.html';
+        }
+    
+        function isLoggedIn() {
+            return localStorage.getItem('isLoggedIn') === 'true';
+        }
+    </script>
+
+
     <!-- Your head content here -->
     <style>
         body {
@@ -279,36 +291,129 @@ button:hover {
     return stars;
 }
 
+function submitForms(formIndex) {
+    const resultsContainer = document.getElementById('resultsContainer');
+    resultsContainer.innerHTML = '';
 
-        function submitForms(formIndex) {
-            const resultsContainer = document.getElementById('resultsContainer');
-            resultsContainer.innerHTML = '';
+    const parameters = [
+        'stockName', 'ltp', 'marketCap', '52WeekLow', '52WeekHigh', 'peRatio', 'pbv',
+        'dividendYield', 'roce', 'roe', 'roa', 'opm', 'financialLeverage', 'evEbitda',
+        'pegRatio', 'debtToEquity', 'priceToCashFlow', 'priceToSales', 'interestCoverage',
+        'currentRatio', 'priceToSales', 'hundredDayMA'
+    ];
 
-            const parameters = [
-                'stockName', 'ltp', 'marketCap', '52WeekLow', '52WeekHigh', 'peRatio', 'pbv',
-                'dividendYield', 'roce', 'roe', 'roa', 'opm', 'financialLeverage', 'evEbitda',
-                'pegRatio', 'debtToEquity', 'priceToCashFlow', 'priceToSales', 'interestCoverage',
-                'currentRatio', 'priceToSales', 'hundredDayMA'
-            ];
+    const values = {};
 
-            const values = {};
+    parameters.forEach(parameter => {
+        values[parameter] = parseFloat(document.getElementById(`${parameter}${formIndex}`).value);
+    });
 
-            parameters.forEach(parameter => {
-                values[parameter] = parseFloat(document.getElementById(`${parameter}${formIndex}`).value);
-            });
+    const imdbRating = calculateScore(values, 1);
+    const stars = generateStars(imdbRating);
 
-            const imdbRating = calculateScore(values, 1);
-            const stars = generateStars(imdbRating);
+    const stockInfo = document.createElement('div');
+    stockInfo.className = 'stockInfo';
+    stockInfo.innerHTML = `
+        <span style="margin-bottom: 10px;">Stock Name: ${document.getElementById(`stockName${formIndex}`).value}</span>
+        <span>LTP: ${values['ltp']}</span>
+        <span class="stars">${stars.map(() => '★').join('')}</span>
+        <span class="imdbRating">IMDB Rating: ${imdbRating}</span>`;
 
-            const stockInfo = document.createElement('div');
-            stockInfo.className = 'stockInfo';
-            stockInfo.innerHTML = `
-                <span style="margin-bottom: 10px;">Stock Name: ${document.getElementById(`stockName${formIndex}`).value}</span>
-                <span>LTP: ${values['ltp']}</span>
-                <span class="stars">${stars.map(() => '★').join('')}</span>
-                <span class="imdbRating">IMDB Rating: ${imdbRating}</span>`;
-            resultsContainer.appendChild(stockInfo);
-        }
+    // Initialize separate arrays for pros and cons
+    const prosContent = [];
+    const consContent = [];
+
+    // Add pros and cons based on P/E ratio
+    const peRatio = values['peRatio'];
+    if (peRatio > 30) {
+        consContent.push('High P/E ratio');
+    } else if (peRatio < 10) {
+        prosContent.push('Healthy P/E ratio');
+    }
+
+    // Add pros and cons based on ROCE
+    const roce = values['roce'];
+    if (roce > 20) {
+        prosContent.push('Good ROCE');
+    } else if (roce < 10) {
+        consContent.push('Less ROCE');
+    }
+
+     // Add pros and cons based on ROE
+     const roe = values['roe'];
+    if (roe > 20) {
+        prosContent.push('Good ROE');
+    } else if (roe < 10) {
+        consContent.push('Less ROE');
+    } 
+
+    // Add pros and cons based on ROE
+    const pbv = values['pbv'];
+    if (pbv > 4) {
+        consContent.push('stock is over Valued');
+    } else if (roe < 1) {
+        prosContent.push('stock is below the book value');
+    }
+
+    // Add pros and cons based on opm
+    const opm = values['opm'];
+    if (opm > 20) {
+        prosContent.push('operating profit Margis is good for the company');
+    } else if (opm < 10) {
+        consContent.push('company dont have a minimum operaion Margin');
+    }
+
+    // Add pros and cons based on ebtToEquity
+    const debtToEquity = values['debtToEquity'];
+    if (debtToEquity> 3) {
+        consContent.push('company have more debt then equity');
+    } else if (debtToEquity< 0.2) {
+        prosContent.push('company is debt free');
+    }
+
+    // Add pros and cons based on interestCoverage
+    const interestCoverage = values['interestCoverage'];
+    if (interestCoverage > 3) {
+        prosContent.push(' good financial health, secure interest payment.');
+    } else if (interestCoverage < 1) {
+        consContent.push('poor financial health, insufficient for interest payments.');
+    }
+
+     // Add pros and cons based on ROA
+     const roa = values['roa'];
+    if (roa > 5) {
+        prosContent.push('Good return on assets');
+    } else if (roa < 1) {
+        consContent.push('Less ROA');
+    } 
+    
+
+      // Add pros and cons based on evEbitda
+      const evEbitda = values['revEbitda'];
+    if (evEbitda> 12) {
+        crosContent.push('Overvalued based on EV/EBITDA, suggesting a potential risk.');
+    } else if (evEbitda< 5) {
+        ponsContent.push('Undervalued based on E/EBITDA,signaling a potential buying Opportunity');
+    } 
+    
+
+    // Append the separate pros and cons to the stock info
+    if (prosContent.length > 0) {
+        stockInfo.innerHTML += `<h4>Pros:</h4><ul>${prosContent.map(pro => `<li>${pro}</li>`).join('')}</ul>`;
+    }
+
+    if (consContent.length > 0) {
+        stockInfo.innerHTML += `<h4>Cons:</h4><ul>${consContent.map(con => `<li>${con}</li>`).join('')}</ul>`;
+    }
+
+    // Append the stock info to the results container
+    resultsContainer.appendChild(stockInfo);
+
+    // Add a click event listener to toggle pros and cons visibility
+    stockInfo.addEventListener('click', () => {
+        stockInfo.classList.toggle('collapsed');
+    });
+}
 
         function compareForms() {
     const resultsContainer = document.getElementById('resultsContainer');
@@ -353,21 +458,37 @@ button:hover {
 
 </script>
 
-
-
-<script>
-    // Check if the user is not logged in, then redirect to the login page
-    if (!isLoggedIn()) {
-        window.location.href = 'membership.html';
+<style>
+    .prosConsSection.collapsed ul {
+        display: none;
     }
 
-    function isLoggedIn() {
-        return localStorage.getItem('isLoggedIn') === 'true';
+    .prosConsSection.collapsed h4::after {
+        content: ' (+)';
+        margin: 0;
     }
-</script>
 
-<!-- Your fundamentals.html content here -->
+    .prosConsSection ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 5px 0; /* Adjust the margin as needed */
+    }
+
+    .prosConsSection ul li {
+        margin: 1px 0;
+    }
+
+    .stockInfo h4 {
+        margin-top: 5px; /* Adjust the margin as needed */
+        margin-bottom: 5px; /* Adjust the margin as needed */
+    }
+</style>
+
+
+
+
 
 </body>
 </html>
+
 
