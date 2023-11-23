@@ -16,7 +16,7 @@
             height: 100vh;
         }
 
-        .pricing-container,
+        
         .course-inquiry-container {
             background-color: #fff;
             padding: 20px;
@@ -58,11 +58,7 @@
             background-color: #45a049;
         }
 
-        .membership-price {
-            color: #007bff; /* Blue color, you can change it to your preferred color */
-            font-size: 1.5em; /* Increase the font size */
-            font-weight: bold; /* Make it bold */
-        }
+        
 
         /* Media query for screens smaller than 600px */
         @media (max-width: 600px) {
@@ -72,16 +68,75 @@
                 margin: 20px; /* Remove margin to stack them vertically */
             }
         }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .pricing-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .pricing-title {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .pricing-option {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .pricing-option span:first-child {
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        .discount {
+            color: #4CAF50;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div style="display: grid;">
-    <div class="pricing-container">
-        <h2>Membership Pricing</h2>
-       
-        <p>Get access to technical and fundamental analysis, as well as community chat for just </p>
-        <p class="membership-price">Price - RS 2999/-</p>per annum</p>
-    </div>
+        <div class="pricing-container">
+            <h2 class="pricing-title">Membership Plans</h2>
+    
+            <div class="pricing-option">
+                <span>Monthly Membership</span>
+                <span>₹99 per month</span>
+            </div>
+    
+            <div class="pricing-option">
+                <span>Yearly Membership</span>
+                <span>₹999 per year</span>
+                <span class="discount">Save ₹189</span>
+            </div>
+    
+            <div class="pricing-option">
+                <span>5-Year Membership</span>
+                <span>₹2999 for 5 years</span>
+                <span class="discount">Save ₹2941</span>
+            </div>
+        </div>
 
 
     <div class="course-inquiry-container">
