@@ -210,7 +210,7 @@ function updateLoginButton() {
 window.onload = updateLoginButton;
 </script>
     <!--intro-->
-  <style>
+    <style>
         .intro {
             margin-top: 80px;
             display: grid;
@@ -278,6 +278,185 @@ window.onload = updateLoginButton;
         <img class="intro-1" src="mainpics/bear.png" alt="Bear Image">
     </div>
 </div>
+   <!--youtube-->
+<style>
+    .video-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+
+    .daily, .latest {
+      overflow: hidden;
+      position: relative;
+      width: 100%; /* Initially takes full width on small screens */
+      max-width: 600px; /* Maximum width */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      margin: 10px;
+    }
+
+    .video-slider {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .video {
+      flex: 0 0 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      text-align: justify;
+      border: 1px solid #ccc;
+    }
+
+    .video img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .slider-btn {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 24px;
+      color: #333;
+      background-color: #fff;
+      border: none;
+    }
+
+    .prev {
+      left: 10px;
+    }
+
+    .next {
+      right: 10px;
+    }
+
+    @media screen and (min-width: 600px) {
+      .daily, .latest {
+        width: 48%; /* Adjust as needed */
+      }
+    }
+
+    @media screen and (min-width: 768px) {
+      .daily, .latest {
+        width: 48%; /* Adjust as needed */
+      }
+    }
+
+    @media screen and (min-width: 992px) {
+      .daily, .latest {
+        width: 48%; /* Adjust as needed */
+      }
+    }
+
+    @media screen and (min-width: 1200px) {
+      .daily, .latest {
+        width: 48%; /* Adjust as needed */
+      }
+    }
+  </style>
+
+    <div>
+  <div><h2 style="margin-left: 10px;">Our Latest Youtube Videos</h2></div>
+  <div class="video-container">
+    <div class="daily">
+        <p style="text-align: center; font-size:large; font-weight: bold;">Informative Videos</p>
+      <div class="video-slider" id="daily-slider">
+        <!-- Add your daily videos here -->
+        <div class="video">
+          <h4>Video Title 1</h4>
+          <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_1" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="video">
+          <h4>Video Title 2</h4>
+          <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_2" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <!-- Add more videos as needed -->
+      </div>
+      <!-- Optional: Add navigation buttons -->
+      <button class="slider-btn prev" onclick="prevSlide('daily')">&#10094;</button>
+      <button class="slider-btn next" onclick="nextSlide('daily')">&#10095;</button>
+    </div>
+
+    <div class="latest">
+        <p style="text-align: center; font-size:large; font-weight: bold;">Daily Market Report</p>
+      <div class="video-slider" id="latest-slider">
+        <!-- Add your latest videos here -->
+        <div class="video">
+          <h4>Latest Video 1</h4>
+          <iframe width="100%" height="315" src="https://www.youtube.com/embed/LATEST_VIDEO_ID_1" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="video">
+          <h4>Latest Video 2</h4>
+          <iframe width="100%" height="315" src="https://www.youtube.com/embed/LATEST_VIDEO_ID_2" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <!-- Add more videos as needed -->
+      </div>
+      <!-- Optional: Add navigation buttons -->
+      <button class="slider-btn prev" onclick="prevSlide('latest')">&#10094;</button>
+      <button class="slider-btn next" onclick="nextSlide('latest')">&#10095;</button>
+    </div>
+  </div>
+   </div>
+
+  <script>
+    let currentIndexDaily = 0;
+    let currentIndexLatest = 0;
+
+    function showSlide(index, container) {
+      const videoSlider = document.getElementById(`${container}-slider`);
+      const videoWidth = videoSlider.offsetWidth;
+      videoSlider.style.transform = `translateX(-${index * videoWidth}px)`;
+      if (container === 'daily') {
+        currentIndexDaily = index;
+      } else if (container === 'latest') {
+        currentIndexLatest = index;
+      }
+    }
+
+    function nextSlide(container) {
+      const totalVideos = document.querySelectorAll(`.${container} .video`).length;
+      let currentIndex;
+      if (container === 'daily') {
+        currentIndex = currentIndexDaily;
+      } else if (container === 'latest') {
+        currentIndex = currentIndexLatest;
+      }
+
+      if (currentIndex < totalVideos - 1) {
+        currentIndex++;
+      } else {
+        currentIndex = 0;
+      }
+
+      showSlide(currentIndex, container);
+    }
+
+    function prevSlide(container) {
+      const totalVideos = document.querySelectorAll(`.${container} .video`).length;
+      let currentIndex;
+      if (container === 'daily') {
+        currentIndex = currentIndexDaily;
+      } else if (container === 'latest') {
+        currentIndex = currentIndexLatest;
+      }
+
+      if (currentIndex > 0) {
+        currentIndex--;
+      } else {
+        currentIndex = totalVideos - 1;
+      }
+
+      showSlide(currentIndex, container);
+    }
+  </script>
+
 
      <!--about-->
         <style>
@@ -300,6 +479,7 @@ window.onload = updateLoginButton;
             flex-wrap: wrap;
             margin-left: 10px;
             margin-right: 10px;
+            margin-top: 10px;
         }
 
         .icon-container {
@@ -453,43 +633,43 @@ th, td {
                         
                          
                             <tr>
-                            <td>1.</td> 
+                            <td>11.</td> 
                             <td>₹1,023</td>
                             </tr>
                             <tr>
-                            <td>2.</td>
+                            <td>12.</td>
                             <td>₹2,047</td>
                             </tr>
                             <tr>
-                            <td>3.</td>
+                            <td>13.</td>
                             <td>₹4,095</td>
                             </tr>
                             <tr>
-                            <td>4.</td>
+                            <td>14.</td>
                             <td>₹8,191</td>
                                 
                             </tr>
                             <tr>
-                            <td>5.</td>
+                            <td>15.</td>
                             <td>₹16,383</td>
                             </tr>
                             <tr>
-                            <td>6.</td>
+                            <td>16.</td>
                             <td>₹32,767</td>
                             </tr>
                             <tr>
-                            <td>7.</td>
+                            <td>17.</td>
                             <td>₹65,535</td>
                             </tr>
                             <tr>
-                            <td>8.</td>
+                            <td>18.</td>
                             <td>₹1,31,071</td>
                             </tr>
                             <tr>
-                            <td>9.</td>
+                            <td>19.</td>
                              <td>₹2,62,143</td>
                             </tr>
-                            <td>10.</td>
+                            <td>20.</td>
                              <td>₹5,24,287</td>
                             </tr>
             
@@ -576,43 +756,43 @@ th, td {
                 
                  
                     <tr>
-                    <td>21.</td> 
+                    <td>1.</td> 
                     <td>₹10,48,575</td>
                     </tr>
                     <tr>
-                    <td>22.</td>
+                    <td>2.</td>
                     <td>₹20,97,151</td>
                     </tr>
                     <tr>
-                    <td>23.</td>
+                    <td>3.</td>
                     <td>₹41,94,303</td>
                     </tr>
                     <tr>
-                    <td>24.</td>
+                    <td>4.</td>
                     <td>₹83,88,607</td>
                         
                     </tr>
                     <tr>
-                    <td>25.</td>
+                    <td>5.</td>
                     <td>₹1,67,77,215</td>
                     </tr>
                     <tr>
-                    <td>26.</td>
+                    <td>6.</td>
                     <td>₹3,35,54,431</td>
                     </tr>
                     <tr>
-                    <td>27.</td>
+                    <td>7.</td>
                     <td>₹6,71,08,863</td>
                     </tr>
                     <tr>
-                    <td>28.</td>
+                    <td>8.</td>
                     <td>₹13,42,17,727</td>
                     </tr>
                     <tr>
-                    <td>29.</td>
+                    <td>9.</td>
                      <td>₹26,84,35,455</td>
                     </tr>
-                    <td>30.</td>
+                    <td>10.</td>
                      <td>₹53,68,70,911</td>
                     </tr>
     
@@ -965,16 +1145,19 @@ th, td {
   }
 
   .pay-button {
-      background-color:rgb(32,178,170) ;
-      height: 36px;
-      width: 100px;
-      border-radius: 5px;
-      margin-top: 10px;
-      cursor: pointer;
-      font-weight: bold;
+    background-color: lightseagreen;
+    height: 36px;
+    width: 100px;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
 
-	  
-  }
+.pay-button:hover {
+    background-color: #ff3737; /* Change the color on hover */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Add a subtle box shadow on hover */
+}
 
   .image-container img {
       max-width: 100%;
@@ -1054,6 +1237,7 @@ padding: 1px;">
                     <p style="margin-top: 10px;font-weight: bold;">Price     - ₹30,000</p>
                     <p style="margin-top: 10px;font-weight: bold;">Monthly - ₹6,000</p>
                     <button class="pay-button"><a href="membership.html" style="text-decoration: none; color: inherit;">Enroll now</a></button>
+                    
                 </div>
                 <div class="image-container">
                     <img src="mainpics/equity.png" alt="Image">
@@ -1118,7 +1302,7 @@ padding: 1px;">
 
 				<div>
 					<i class="fa fa-envelope"></i>
-					<p><a href="mailto:support@company.com">sigmainvestmentacademy@gmail.com</a></p>
+					<p><a href="mailto:support@company.com">sigmainvestmentacademy@gmil.com</a></p>
 				</div>
 
 			</div>
@@ -1142,6 +1326,10 @@ padding: 1px;">
 			</div>
 
    </footer>
+
+
+    </body>
+    </html>
 
 
     </body>
