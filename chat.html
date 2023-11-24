@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Application with Image Upload</title>
+    <title>The Journey to a Million</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,104 +11,127 @@
             padding: 0;
             background-color: #f4f4f4;
         }
-        #chat-container {
-            max-width: 800px; /* Increase the width as needed */
-            margin: 20px auto;
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
             padding: 20px;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
             background-color: #fff;
+            padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
-        #chat-box {
-            max-height: 600px; /* Increase the height as needed */
-            width: 100%;
-            overflow-y: scroll;
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #ccc;
         }
-        #message-input {
-            width: 70%;
-            padding: 8px;
-            box-sizing: border-box;
+
+        .profile-content {
+            flex: 1;
+            text-align: left;
+            margin-left: 20px;
         }
-        #file-input {
-            width: 20%;
-            padding: 8px;
-            box-sizing: border-box;
+
+        .profile-content h1 {
+            font-weight: bolder;
+            font-size: x-large;
+            color: #000;
+            margin: 5px;
         }
-        #send-btn {
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            background-color: #4caf50;
-            color: #fff;
-            cursor: pointer;
+
+        .icon-container {
+            flex: 0 0 30%;
+            text-align: center;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+
+        .icon-container img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .profile-section {
+                flex-direction: column;
+            }
+
+            .icon-container {
+                flex: 1 1 auto;
+                margin-right: 0;
+            }
+
+            .profile-content {
+                flex: 1 1 100%;
+                margin-left: 0;
+            }
         }
     </style>
 </head>
 <body>
+    
 
-<script>
-    // Simple JavaScript code for demonstration purposes
-    const validUserIds = [123, 456, 789]; // Add your valid user IDs here
+<header>
+    <h1>The Journey to a Million</h1>
+</header>
 
-    let userId = prompt("Enter your user ID:");
+<main>
+    <div class="profile-section">
+        <div class="icon-container">
+            <img src="mainpics/pic (1).jpg" alt="Icon">
+        </div>
 
-    if (!isValidUserId(userId)) {
-        alert("Invalid user ID. Redirecting to login page.");
-        window.location.href = "membership.html"; // Redirect to the login page
-    }
+        <div class="profile-content">
+            <h1>From $500 to One Million by 2030</h1>
 
-    function isValidUserId(id) {
-        return validUserIds.includes(parseInt(id));
-    }
+            <p>Welcome to our exclusive investment program designed for individuals with modest capital. We believe that with strategic planning and disciplined investing, even starting with as little as $500, you can grow your wealth to one million by 2030.</p>
+            <p>Our program is crafted to provide you with the knowledge, tools, and support needed to navigate the world of investments, making informed decisions along the way.</p>
+            <p>Join us on this exciting journey and let's turn your investment dreams into a reality.</p>
+        </div>
+    </div>
 
-    function sendMessage() {
-        const messageInput = document.getElementById('message-input');
-        const fileInput = document.getElementById('file-input');
-        const chatBox = document.getElementById('chat-box');
+    <div class="video-container">
+        <div class="video-section">
+            <!-- Replace the video source with your uploaded video -->
+            <video width="100%" controls>
+                <source src="your_video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
 
-        const message = messageInput.value.trim();
-        const file = fileInput.files[0];
+    <div class="notification-bar">
+        <p>Important Notification: This is an important message or announcement.</p>
+    </div>
+</main>
 
-        if (message === "" && !file) {
-            return;
-        }
-
-        let messageContent = `<strong>${userId}:</strong> ${message}`;
-
-        if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            messageContent += `<br><img src="${imageUrl}" alt="User Image" style="max-width:100%;">`;
-        }
-
-        const formattedMessage = `<div>${messageContent}</div>`;
-        chatBox.innerHTML += formattedMessage;
-
-        // Clear input fields
-        messageInput.value = "";
-        fileInput.value = "";
-
-        // Additional logic can be added to send the message and file data to the server or perform other actions.
-    }
-</script>
 <script>
     // Check if the user is not logged in, then redirect to the login page
     if (!isLoggedIn()) {
-        window.location.href = 'membership.html' ;
+        window.location.href = 'membership.html';
     }
 
     function isLoggedIn() {
         return localStorage.getItem('isLoggedIn') === 'true';
     }
 </script>
-
-<div id="chat-container">
-    <div id="chat-box"></div>
-    <input type="text" id="message-input" placeholder="Type your message...">
-    <input type="file" id="file-input" accept="image/*">
-    <button id="send-btn" onclick="sendMessage()">Send</button>
-</div>
 
 </body>
 </html>
