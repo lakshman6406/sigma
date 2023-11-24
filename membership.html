@@ -3,173 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Membership Pricing & Course Inquiry</title>
+    <title>Website Pricing</title>
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f4f4f4;
+            background-image: url('mainpics/back.png"');
+            background-size: cover;
+            background-repeat: no-repeat;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        
-        .course-inquiry-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
-            margin-bottom: 20px;
-            text-align: center;
-            margin: 10px;
-        }
-
-        .course-inquiry-container {
-            margin-top: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 16px;
-            box-sizing: border-box;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        
-
-        /* Media query for screens smaller than 600px */
-        @media (max-width: 600px) {
-            .pricing-container,
-            .course-inquiry-container {
-                max-width: none;
-                margin: 20px; /* Remove margin to stack them vertically */
-            }
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            margin-top: 100px;
         }
 
         .pricing-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .pricing-title {
-            font-size: 28px;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .pricing-option {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            font-size: 16px;
-            color: #555;
+            justify-content: space-around;
+            margin: 20px;
         }
 
-        .pricing-option span:first-child {
-            flex-grow: 1;
-            text-align: left;
+        .pricing-column {
+            max-width: 300px;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: white;
+            margin-left: 10px;
+            margin-right: 10px;
         }
 
         .discount {
-            color: #4CAF50;
-            font-weight: bold;
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .savings {
+            color: green;
+        }
+
+        .features {
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        .features li {
+            list-style-type: none;
+            margin-top: 5px;
+        }
+
+        /* Styles for the button */
+        .subscribe-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .subscribe-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Styles for the form */
+        .popup-form {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .form-row label {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
         }
     </style>
 </head>
 <body>
-    <div style="display: grid;">
-        <div class="pricing-container">
-            <h2 class="pricing-title">Membership Plans</h2>
-    
-            
-            
-            <div class="pricing-option">
-                <span>Yearly Membership</span>
-                <span>₹999 per year</span>
-               
-            </div>
-    
-            <div class="pricing-option">
-                <span>5-Year Membership</span>
-                <span>₹2999 for 5 years</span>
-                <span class="discount">Save ₹2941</span>
-            </div>
+
+<div class="pricing-container">
+    <div class="pricing-column">
+        <h2>1 Year Plan</h2>
+        <p class="discount">₹1999</p>
+        <p class="savings">Save 50%</p>
+        <p>Now: ₹999</p>
+        <div class="features">
+            <h4>Features:</h4>
+            <ul>
+                <li>&#x2022; Access to technical calculator</li>
+                <li>&#x2022; Fundamental analysis tools</li>
+                <li>&#x2022; Members club</li>
+            </ul>
         </div>
+        <button class="subscribe-button" onclick="showPopup('1 Year Plan')">Subscribe</button>
+    </div>
 
+    <div class="pricing-column">
+        <h2>5 Years Plan</h2>
+        <p class="discount">₹9999</p>
+        <p class="savings">Save 60%</p>
+        <p>Now: ₹3999/<p>Savings: ₹6000</p></p>
+        <div class="features">
+            <h4>Features:</h4>
+            <ul>
+                <li>&#x2022; Access to technical calculator</li>
+                <li>&#x2022; Fundamental analysis tools</li>
+                <li>&#x2022; Members club</li>
+            </ul>
+        </div>
+        <button class="subscribe-button" onclick="showPopup('5 Years Plan')">Subscribe</button>
+    </div>
 
-    <div class="course-inquiry-container">
-        <h2>Course Inquiry</h2>
-        <form id="courseForm">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="phone">Phone Number:</label>
-            <input type="tel" id="phone" name="phone" required>
-
-            <button type="button" onclick="submitCourseForm()">Submit Inquiry</button>
-        </form>
+    <div class="pricing-column">
+        <h2>Premium Subscription</h2>
+        <p>₹5999 per year</p>
+        <div class="features">
+            <h4>Features:</h4>
+            <ul>
+                <li>&#x2022; Access to technical calculator</li>
+                <li>&#x2022; Fundamental analysis tools</li>
+                <li>&#x2022; Members club</li>
+                <li>&#x2022; Personalized portfolio view</li>
+                <li>&#x2022; Investment insights</li>
+            </ul>
+        </div>
+        <button class="subscribe-button" onclick="showPopup('Premium Subscription')">Subscribe</button>
     </div>
 </div>
 
-    <script>
-        function submitCourseForm() {
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
+<div class="overlay" id="overlay" onclick="hidePopup()"></div>
+<div class="popup-form" id="popupForm">
+    <h2>Subscription Form</h2>
+    <form onsubmit="submitForm(event)">
+        <div class="form-row">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
 
-            // Example: Send user data to an email address
-            const subject = 'New Course Inquiry';
-            const body = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}`;
-            const mailtoLink = `mailto:sigmainvestmentacademy@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        <div class="form-row">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
 
-            // Open the user's default email client to send the email
-            window.location.href = mailtoLink;
+        <div class="form-row">
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+        </div>
 
-            // Additional logic for storing the user in your system/database
-            alert('Inquiry submitted! We will get in touch with you soon.');
-        }
-    </script>
+        <button type="submit" class="subscribe-button">Submit</button>
+    </form>
+</div>
+
+<script>
+    function showPopup(plan) {
+        document.getElementById('popupForm').innerHTML = `<h2>Subscription Form (${plan})</h2>
+        <form onsubmit="submitForm(event, '${plan}')">
+            <div class="form-row">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-row">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-row">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+
+            <button type="submit" class="subscribe-button">Submit</button>
+        </form>`;
+        document.getElementById('popupForm').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+    }
+
+    function hidePopup() {
+        document.getElementById('popupForm').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+
+    function submitForm(event, plan) {
+        event.preventDefault();
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const message = `Plan: ${plan}\nName: ${name}\nEmail: ${email}\nPhone: ${phone}`;
+
+        // Send an email using a service or library of your choice
+        // Here, I'm using a simple mailto link which will open the user's default email client
+        window.location.href = `mailto:sigmainvestmentacademy@gmail.com?subject=Subscription&body=${encodeURIComponent(message)}`;
+
+        hidePopup();
+    }
+</script>
+
 </body>
 </html>
+
