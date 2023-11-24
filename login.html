@@ -1,4 +1,3 @@
-<!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,34 +7,48 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #3b3d43;
+            background-image: url('StockMarketMentality'); /* Specify the path to your background image */
+            background-size: cover;
+            background-position: center;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            background-image: url('mainpics/back.png"');
         }
 
-        form {
-            background-color: #fff;
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 300px;
+            max-width: 400px;
             width: 100%;
-            margin-bottom: 20px; /* Add margin to separate forms */
+            text-align: center;
+        }
+
+        h2 {
+            color: #4CAF50;
+        }
+
+        form {
+            margin-top: 20px;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
+            color: #333;
         }
 
         input {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             margin-bottom: 16px;
             box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         button {
@@ -45,6 +58,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
         button:hover {
@@ -52,19 +66,19 @@
         }
 
         .signup-prompt {
-            color: #fff;
-            text-align: center;
+            color: #333;
             margin-top: 10px;
         }
 
         .signup-link {
             color: #4CAF50;
             cursor: pointer;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div>
+    <div class="container">
         <h2>Login Page</h2>
         <form id="loginForm">
             <label for="username">Username:</label>
@@ -111,7 +125,7 @@
                 // Set login status to true in localStorage
                 localStorage.setItem('isLoggedIn', 'true');
                 // Redirect to the main page with a query parameter
-                window.location.href = `index.html?loginSuccess=true`;
+                window.location.href = `sigma.html?loginSuccess=true`;
             } else {
                 alert('Invalid credentials. Please try again.');
             }
@@ -145,3 +159,4 @@
     </script>
 </body>
 </html>
+
