@@ -484,10 +484,15 @@ function compareForms() {
     let totalInterestCoverage = 0;
 
     for (let i = 0; i < numForms; i++) {
-        const values = {};
-        parameters.forEach(parameter => {
+    const values = {};
+    parameters.forEach(parameter => {
+        // Check if the parameter is the stockName
+        if (parameter === 'stockName') {
+            values[parameter] = document.getElementById(`${parameter}${i}`).value;
+        } else {
             values[parameter] = parseFloat(document.getElementById(`${parameter}${i}`).value);
-        });
+        }
+    });
         const imdbRating = calculateScore(values, numForms);
         totalImdbRating += parseFloat(imdbRating);
         totalPeRatio += values['peRatio'];
@@ -605,22 +610,24 @@ function compareForms() {
             consContent.push(`Higher financial risk, potential challenges in meeting interest obligations.`);
         }
         // Helper function to classify market cap
-function classifyMarketCap(marketCap) {
-    if (marketCap > 25000) {
-        return 'Large Cap';
-    } else if (marketCap > 5000) {
-        return 'Mid Cap';
-    } else {
-        return 'Small Cap';
-    }
+        function classifyMarketCap(marketCap) {
+         if (marketCap > 25000) {
+         return 'Large Cap';
+          } else if (marketCap > 5000) {
+         return 'Mid Cap';
+         } else {
+         return 'Small Cap';
+         }
 }
 
         const stars = generateStars(imdbRating);
+        
 
         const stockInfo = document.createElement('div');
         stockInfo.className = 'stockInfo';
         stockInfo.innerHTML = `
-            <span style="margin-bottom: 10px;">Stock Name: ${values['stockName']}</span>
+        
+        <span style="margin-bottom: 10px;">Stock Name: ${values['stockName']}</span>
             <span>LTP: ${values['ltp']}</span>
             <span class="stars">${stars.map(() => '★').join('')}</span>
             <span class="imdbRating">IMDB Rating: ${imdbRating}</span>
