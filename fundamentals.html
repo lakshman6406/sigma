@@ -8,7 +8,7 @@
     <script>
         // Check if the user is not logged in, then redirect to the login page
         if (!isLoggedIn()) {
-            window.location.href = 'membership.html';
+            window.location.href = 'login.html';
         }
     
         function isLoggedIn() {
@@ -115,8 +115,8 @@ button:hover {
 
 <body>
 
-    <label for="numForms">Number of Forms to Open (Max 6):</label>
-    <input type="number" id="numForms" min="1" max="6" required>
+    <label for="numForms">Number of Forms to Open (Max 3):</label>
+    <input type="number" id="numForms" min="1" max="3" required>
     <button class="openFormsButton" type="button" onclick="openForms()">Open Forms</button>
 
     <div id="formsContainer"></div>
@@ -135,7 +135,7 @@ button:hover {
 
         function openForms() {
             const numForms = document.getElementById('numForms').value;
-            const maxForms = 6;
+            const maxForms = 3;
             const limitedNumForms = Math.min(numForms, maxForms);
             const formsContainer = document.getElementById('formsContainer');
             formsContainer.innerHTML = '';
@@ -157,12 +157,13 @@ button:hover {
                     <label for="marketCap${i}">Market Cap:</label>
                     <input type="number" id="marketCap${i}" required><br>
 
-                    <label for="52WeekLow${i}">52 Week Low:</label>
-                    <input type="number" id="52WeekLow${i}" required><br>
-
                     <label for="52WeekHigh${i}">52 Week High:</label>
                     <input type="number" id="52WeekHigh${i}" required><br>
 
+                    <label for="52WeekLow${i}">52 Week Low:</label>
+                    <input type="number" id="52WeekLow${i}" required><br>
+
+                   
                     <label for="peRatio${i}">P/E Ratio:</label>
                     <input type="number" id="peRatio${i}" required><br>
 
@@ -285,8 +286,9 @@ button:hover {
             return ((imdbRating / 15) * 10).toFixed(2);
         }
 
-        function generateStars(rating) {
-    const numStars = Math.ceil(rating / 2); // Adjusted to round up for better representation
+        function generateStars(imdbRating) {
+    const roundedRating = Math.round(imdbRating);
+    const numStars = Math.ceil(roundedRating / 2); // Adjusted to round up for better representation
     const stars = Array.from({ length: numStars }, (_, index) => index + 1);
     return stars;
 }
@@ -318,6 +320,23 @@ function submitForms(formIndex) {
         <span>LTP: ${values['ltp']}</span>
         <span class="stars">${stars.map(() => '★').join('')}</span>
         <span class="imdbRating">IMDB Rating: ${imdbRating}</span>`;
+        
+        // Get the market cap value
+const marketCap = values['marketCap'];
+
+// Add a classification based on market cap
+let capClassification = '';
+if (marketCap > 25000) {
+    capClassification = 'Large Cap';
+} else if (marketCap > 5000) {
+    capClassification = 'Mid Cap';
+} else {
+    capClassification = 'Small Cap';
+}
+
+// Append the cap classification below the stock name
+stockInfo.innerHTML += `<span>${marketCap} (${capClassification})</span>`;
+// ... (rest of the code remains unchanged)
 
     // Initialize separate arrays for pros and cons
     const prosContent = [];
@@ -360,7 +379,7 @@ function submitForms(formIndex) {
     if (opm > 20) {
         prosContent.push('operating profit Margis is good for the company');
     } else if (opm < 10) {
-        consContent.push('company dont have a minimum operaion Margin');
+        consContent.push('company dont have a minimum operating Profit Margin');
     }
 
     // Add pros and cons based on ebtToEquity
@@ -396,6 +415,31 @@ function submitForms(formIndex) {
         ponsContent.push('Undervalued based on E/EBITDA,signaling a potential buying Opportunity');
     } 
     
+    const ltp = values['ltp'];
+const fiftyTwoWeekHigh = values['52WeekHigh'];
+const fiftyTwoWeekLow = values['52WeekLow'];
+
+// Define a threshold percentage for considering close values
+const thresholdPercentage = 5;
+
+// Check if the LTP is close to the 52-week high
+if ((ltp / fiftyTwoWeekHigh) * 100 >= (100 - thresholdPercentage)) {
+    consContent.push('Stock price is close to 52-week high.');
+} else if ((fiftyTwoWeekLow / ltp) * 100 >= (100 - thresholdPercentage)) {
+    prosContent.push('Stock is trading at 52-week low.');
+}
+
+// Add pros based on 100-day moving average and IMDb rating
+const hundredDayMA = values['hundredDayMA'];
+const imdbRatingThreshold = 6;
+
+// Check if the stock is below 100-day moving average and IMDb rating is above 6
+if (hundredDayMA > ltp) {
+    if (imdbRating > imdbRatingThreshold) {
+        prosContent.push('Stock has good fundamentals and is trading below 100-day moving average.');
+    }
+}
+
 
     // Append the separate pros and cons to the stock info
     if (prosContent.length > 0) {
@@ -415,7 +459,7 @@ function submitForms(formIndex) {
     });
 }
 
-        function compareForms() {
+function compareForms() {
     const resultsContainer = document.getElementById('resultsContainer');
     resultsContainer.innerHTML = '';
 
@@ -429,6 +473,15 @@ function submitForms(formIndex) {
     const numForms = document.getElementById('numForms').value;
     const allValues = [];
     let totalImdbRating = 0;
+    let totalPeRatio = 0;
+    let totalRoce = 0;
+    let totalRoe = 0;
+    let totalRoa = 0;
+    let totalOpm = 0;
+    let totalPbv = 0;
+    let totalEvEbitda = 0;
+    let totalDebtToEquity = 0;
+    let totalInterestCoverage = 0;
 
     for (let i = 0; i < numForms; i++) {
         const values = {};
@@ -437,20 +490,144 @@ function submitForms(formIndex) {
         });
         const imdbRating = calculateScore(values, numForms);
         totalImdbRating += parseFloat(imdbRating);
+        totalPeRatio += values['peRatio'];
+        totalRoce += values['roce'];
+        totalRoe += values['roe'];
+        totalRoa += values['roa'];
+        totalOpm += values['opm'];
+        totalPbv += values['pbv'];
+        totalEvEbitda += values['evEbitda'];
+        totalDebtToEquity += values['debtToEquity'];
+        totalInterestCoverage += values['interestCoverage'];
         allValues.push({ values, imdbRating });
     }
 
     const averageImdbRating = totalImdbRating / numForms;
+    const averagePeRatio = totalPeRatio / numForms;
+    const averageRoce = totalRoce / numForms;
+    const averageRoe = totalRoe / numForms;
+    const averageRoa = totalRoa / numForms;
+    const averageOpm = totalOpm / numForms;
+    const averagePbv = totalPbv / numForms;
+    const averageEvEbitda = totalEvEbitda / numForms;
+    const averageDebtToEquity = totalDebtToEquity / numForms;
+    const averageInterestCoverage = totalInterestCoverage / numForms;
+
     const stars = generateStars(averageImdbRating);
 
-    allValues.forEach(({ values, imdbRating }, index) => {
+    allValues.forEach(({ values, imdbRating }) => {
+        const ltp = values['ltp'];
+        const fiftyTwoWeekHigh = values['52WeekHigh'];
+        const fiftyTwoWeekLow = values['52WeekLow'];
+
+        const peRatio = values['peRatio'];
+        const roce = values['roce'];
+        const roe = values['roe'];
+        const roa = values['roa'];
+        const opm = values['opm'];
+        const pbv = values['pbv'];
+        const evEbitda = values['evEbitda'];
+        const debtToEquity = values['debtToEquity'];
+        const interestCoverage = values['interestCoverage'];
+
+        const thresholdPercentage = 5;
+
+        const prosContent = [];
+        const consContent = [];
+
+        // Check if the LTP is close to the 52-week high
+        if ((ltp / fiftyTwoWeekHigh) * 100 >= (100 - thresholdPercentage)) {
+            consContent.push('Stock price is close to 52-week high.');
+        } else if ((fiftyTwoWeekLow / ltp) * 100 >= (100 - thresholdPercentage)) {
+            prosContent.push('Stock is trading at 52-week low.');
+        }
+
+        // Compare each P/E ratio with the average
+        if (peRatio < averagePeRatio) {
+            prosContent.push(`Lower P/E ratio than industry average, potentially indicating undervaluation and a good investment opportunity.`);
+        } else if (peRatio > averagePeRatio) {
+            consContent.push(`May face lower investor confidence or growth expectations.`);
+        }
+
+        // Compare each ROCE with the average
+        if (roce > averageRoce) {
+            prosContent.push(`Has a higher ROCE than the average.`);
+        } else if (roce < averageRoce) {
+            consContent.push(`Has a lower ROCE than the average.`);
+        }
+
+        // Compare each ROE with the average
+        if (roe > averageRoe) {
+            prosContent.push(`Has a higher ROE than the average.`);
+        } else if (roe < averageRoe) {
+            consContent.push(`Has a lower ROE than the average.`);
+        }
+
+        // Compare each ROA with the average
+        if (roa > averageRoa) {
+            prosContent.push(`Has a higher ROA than the average.`);
+        } else if (roa < averageRoa) {
+            consContent.push(`Has a lower ROA than the average.`);
+        }
+
+        // Compare each OPM with the average
+        if (opm > averageOpm) {
+            prosContent.push(`Higher Operating Profit Margin than industry average, indicating strong operational efficiency.`);
+        } else if (opm < averageOpm) {
+            consContent.push(`Might face challenges in maintaining profitability compared to peers.`);
+        }
+
+        // Compare each PBV with the average
+        if (pbv < averagePbv) {
+            prosContent.push(`Lower Price-to-Book Value than industry average, potentially undervalued.`);
+        } else if (pbv > averagePbv) {
+            consContent.push(`Potentially overvalued, caution for investors.`);
+        }
+
+        // Compare each EV/EBITDA with the average
+        if (evEbitda < averageEvEbitda) {
+            prosContent.push(`Lower EV/EBITDA ratio than industry average, potentially undervalued.`);
+        } else if (evEbitda > averageEvEbitda) {
+            consContent.push(`Potentially overvalued, higher financial risk.`);
+        }
+
+        // Compare each Debt to Equity with the average
+        if (debtToEquity < averageDebtToEquity) {
+            prosContent.push(`Lower debt burden than industry average, stronger financial position.`);
+        } else if (debtToEquity > averageDebtToEquity) {
+            consContent.push(`Higher debt burden than industry average.`);
+        }
+
+        // Compare each Interest Coverage Ratio with the average
+        if (interestCoverage > averageInterestCoverage) {
+            prosContent.push(` Higher interest coverage ratio than industry average, lower financial risk.`);
+        } else if (interestCoverage < averageInterestCoverage) {
+            consContent.push(`Higher financial risk, potential challenges in meeting interest obligations.`);
+        }
+        // Helper function to classify market cap
+function classifyMarketCap(marketCap) {
+    if (marketCap > 25000) {
+        return 'Large Cap';
+    } else if (marketCap > 5000) {
+        return 'Mid Cap';
+    } else {
+        return 'Small Cap';
+    }
+}
+
+        const stars = generateStars(imdbRating);
+
         const stockInfo = document.createElement('div');
         stockInfo.className = 'stockInfo';
         stockInfo.innerHTML = `
-            <span style="margin-bottom: 10px;">Stock Name: ${document.getElementById(`stockName${index}`).value}</span>
+            <span style="margin-bottom: 10px;">Stock Name: ${values['stockName']}</span>
             <span>LTP: ${values['ltp']}</span>
             <span class="stars">${stars.map(() => '★').join('')}</span>
-            <span class="imdbRating">IMDB Rating: ${imdbRating}</span>`;
+            <span class="imdbRating">IMDB Rating: ${imdbRating}</span>
+            <span>(${classifyMarketCap(values['marketCap'])})</span>
+            <h4>Pros:</h4><ul>${prosContent.map(pro => `<li>${pro}</li>`).join('')}</ul>
+            <h4>Cons:</h4><ul>${consContent.map(con => `<li>${con}</li>`).join('')}</ul>`;
+
         resultsContainer.appendChild(stockInfo);
     });
 }
