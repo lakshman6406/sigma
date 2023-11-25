@@ -4,12 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Journey to a Million</title>
+    <script>
+        // Check if the user is not logged in, then redirect to the login page
+        if (!isLoggedIn()) {
+            window.location.href = 'membership.html';
+        }
+    
+        function isLoggedIn() {
+            return localStorage.getItem('isLoggedIn') === 'true';
+        }
+    </script>
+    
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: lightblue;
+            
         }
 
         header {
@@ -99,7 +111,7 @@
         </div>
 
         <div class="profile-content">
-            <h1>From $500 to One Million by 2030</h1>
+            <h1>From ₹500 to One Million by 2030</h1>
 
             <p>Welcome to our exclusive investment program designed for individuals with modest capital. We believe that with strategic planning and disciplined investing, even starting with as little as ₹500, you can grow your wealth to one million by 2030.</p>
             <p>Our program is crafted to provide you with the knowledge, tools, and support needed to navigate the world of investments, making informed decisions along the way.</p>
@@ -107,7 +119,7 @@
         </div>
     </div>
 
-    <div class="video-container">
+    <div class="video-containerr">
         <div class="video-section">
             <!-- Replace the video source with your uploaded video -->
             <video width="100%" controls>
@@ -117,24 +129,156 @@
         </div>
     </div>
 
+    
+
     <div class="notification-bar">
         <p>Important Notification: This is an important message or announcement.</p>
     </div>
+
+
+    <style>
+        .video-container {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          margin-left: 20px;
+          margin-right: 20px;
+        }
+    
+        .daily, .latest {
+          overflow: hidden;
+          position: relative;
+          width: 100%; /* Initially takes full width on small screens */
+          max-width: 600px; /* Maximum width */
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+          border-radius: 10px;
+          margin: 10px;
+        }
+    
+        .video-slider {
+          display: flex;
+          transition: transform 0.5s ease-in-out;
+        }
+    
+        .video {
+          flex: 0 0 100%;
+          box-sizing: border-box;
+          padding: 10px;
+          text-align: justify;
+          border: 1px solid #ccc;
+        }
+    
+        .video img {
+          max-width: 100%;
+          height: auto;
+          display: block;
+          margin-bottom: 10px;
+        }
+    
+        .slider-btn {
+          cursor: pointer;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 24px;
+          color: #333;
+          background-color: #fff;
+          border: none;
+        }
+    
+        .prev {
+          left: 10px;
+        }
+    
+        .next {
+          right: 10px;
+        }
+    
+       
+      </style>
+    
+        <div>
+      <div><h2 style="margin-left: 10px;">Our Latest Youtube Videos</h2></div>
+      <div class="video-container">
+        <div class="daily">
+            <p style="text-align: center; font-size:large; font-weight: bold;">Informative Videos</p>
+          <div class="video-slider" id="daily-slider">
+            <!-- Add your daily videos here -->
+            <div class="video">
+              <h4>Video Title 1</h4>
+              <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_1" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="video">
+              <h4>Video Title 2</h4>
+              <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID_2" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <!-- Add more videos as needed -->
+          </div>
+          <!-- Optional: Add navigation buttons -->
+          <button class="slider-btn prev" onclick="prevSlide('daily')">&#10094;</button>
+          <button class="slider-btn next" onclick="nextSlide('daily')">&#10095;</button>
+        </div>
+    
+      </div>
+       </div>
+    
+      <script>
+        let currentIndexDaily = 0;
+        let currentIndexLatest = 0;
+    
+        function showSlide(index, container) {
+          const videoSlider = document.getElementById(`${container}-slider`);
+          const videoWidth = videoSlider.offsetWidth;
+          videoSlider.style.transform = `translateX(-${index * videoWidth}px)`;
+          if (container === 'daily') {
+            currentIndexDaily = index;
+          } else if (container === 'latest') {
+            currentIndexLatest = index;
+          }
+        }
+    
+        function nextSlide(container) {
+          const totalVideos = document.querySelectorAll(`.${container} .video`).length;
+          let currentIndex;
+          if (container === 'daily') {
+            currentIndex = currentIndexDaily;
+          } else if (container === 'latest') {
+            currentIndex = currentIndexLatest;
+          }
+    
+          if (currentIndex < totalVideos - 1) {
+            currentIndex++;
+          } else {
+            currentIndex = 0;
+          }
+    
+          showSlide(currentIndex, container);
+        }
+    
+        function prevSlide(container) {
+          const totalVideos = document.querySelectorAll(`.${container} .video`).length;
+          let currentIndex;
+          if (container === 'daily') {
+            currentIndex = currentIndexDaily;
+          } else if (container === 'latest') {
+            currentIndex = currentIndexLatest;
+          }
+    
+          if (currentIndex > 0) {
+            currentIndex--;
+          } else {
+            currentIndex = totalVideos - 1;
+          }
+    
+          showSlide(currentIndex, container);
+        }
+      </script>
 </main>
 
-<script>
-    // Check if the user is not logged in, then redirect to the login page
-    if (!isLoggedIn()) {
-        window.location.href = 'membership.html';
-    }
-
-    function isLoggedIn() {
-        return localStorage.getItem('isLoggedIn') === 'true';
-    }
-</script>
 
 </body>
 </html>
+
 
 
 
