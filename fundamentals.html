@@ -316,8 +316,8 @@ function submitForms(formIndex) {
     const stockInfo = document.createElement('div');
     stockInfo.className = 'stockInfo';
     stockInfo.innerHTML = `
-        <span style="margin-bottom: 10px;">Stock Name: ${document.getElementById(`stockName${formIndex}`).value}</span>
-        <span>LTP: ${values['ltp']}</span>
+        <span style="margin-bottom: 10px;">Stock Name:<strong> ${document.getElementById(`stockName${formIndex}`).value}</strong></span>
+        <span>LTP:<strong> ${values['ltp']}</strong></span>
         <span class="stars">${stars.map(() => '★').join('')}</span>
         <span class="imdbRating">IMDB Rating: ${imdbRating}</span>`;
         
@@ -627,8 +627,8 @@ function compareForms() {
         stockInfo.className = 'stockInfo';
         stockInfo.innerHTML = `
         
-        <span style="margin-bottom: 10px;">Stock Name: ${values['stockName']}</span>
-            <span>LTP: ${values['ltp']}</span>
+        <span style="margin-bottom: 10px;">Stock Name:<strong> ${values['stockName']}</strong></span>
+            <span>LTP:<strong> ${values['ltp']}</strong></span>
             <span class="stars">${stars.map(() => '★').join('')}</span>
             <span class="imdbRating">IMDB Rating: ${imdbRating}</span>
             <span>(${classifyMarketCap(values['marketCap'])})</span>
