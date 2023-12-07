@@ -5,8 +5,8 @@
 
             // Example user credentials for testing
             const exampleUsers = {
-                'Lucky1': '0816',
-                'freetrial': '0811',
+                'Sigma': '0816',
+                'Harsha': '001',
                 'user3': '5246'
             };
 
